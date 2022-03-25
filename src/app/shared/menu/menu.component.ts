@@ -16,7 +16,7 @@ interface MenuItem {
 })
 export class MenuComponent {
   menuItems: MenuItem[] = [
-    { ruta: '/mapas/fullscreen', nombre: 'FullScreen'},
+    { ruta: '/mapas/fullscreen', nombre: 'Full Screen'},
     { ruta: '/mapas/zoom-range', nombre: 'Zoom Range'},
     { ruta: '/mapas/marcadores', nombre: 'Marcadores'},
     { ruta: '/mapas/propiedades', nombre: 'Propiedades'}
