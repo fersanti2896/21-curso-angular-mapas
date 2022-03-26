@@ -2,8 +2,9 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 
 interface MarcadorColor {
-  color   : string;
-  marcador: mapboxgl.Marker;
+  color    : string;
+  marcador?: mapboxgl.Marker;
+  centro  ?: [number, number];
 }
 
 @Component({
@@ -46,6 +47,8 @@ export class MarcadoresComponent implements AfterViewInit {
       zoom: this.zoomLevel // starting zoom
     });
 
+    this.leerLocalStorage();
+
     /* Agregar elementos HTML al marker
     const markerHTML: HTMLElement = document.createElement('div');
     markerHTML.innerHTML = 'Hola mundo!'; */
@@ -53,9 +56,6 @@ export class MarcadoresComponent implements AfterViewInit {
     // new mapboxgl.Marker()
     //     .setLngLat(this.coordenadas)
     //     .addTo(this.mapa);
-
-    /* Marcadores de manera dinámica */
-
   }
 
   agregarMarcador() {
@@ -72,6 +72,8 @@ export class MarcadoresComponent implements AfterViewInit {
       color,
       marcador: nuevoMarcador
     });
+
+    this.guardarMarcadorLocalStorage();
   }
 
   verMarcador(marcador: mapboxgl.Marker ) {
@@ -81,10 +83,40 @@ export class MarcadoresComponent implements AfterViewInit {
   }
 
   guardarMarcadorLocalStorage() {
-    
+    const lngLatArr: MarcadorColor[] = [];
+
+    this.marcadores.forEach( m => {
+      const color = m.color;
+      const { lng, lat } = m.marcador!.getLngLat()
+
+      lngLatArr.push({
+        color: color,
+        centro: [ lng, lat ]
+      });
+    });
+
+    localStorage.setItem('marcadores', JSON.stringify(lngLatArr));
   }
 
   leerLocalStorage() {
+    if( !localStorage.getItem('marcadores') ) {
+      return;
+    }
 
+    const lngLatArr: MarcadorColor[] = JSON.parse(localStorage.getItem('marcadores')!);
+
+    lngLatArr.forEach( m => {
+      const newMarcador = new mapboxgl.Marker({
+                                color: m.color,
+                                draggable: true
+                              })
+                              .setLngLat( m.centro! )
+                              .addTo( this.mapa );
+      
+      this.marcadores.push({
+        color: m.color,
+        marcador: newMarcador
+      })                        
+    })
   }
 }

@@ -8,7 +8,7 @@
 
     <li class="list-group-item"
         *ngFor="let m of marcadores; let i = index"
-        (click)="verMarcador(m.marcador)"
+        (click)="verMarcador(m.marcador!)"
         [ngStyle]="{ 'background-color': m.color }">
         <i class="bi bi-geo-alt"></i>
         Direccion {{ i + 1 }}
