@@ -4,7 +4,7 @@
     <div class="col-12">
         <label class="form-group">
             Zoom: {{ zoomLevel | number : '2.0-2' }}
-            - Lng, Lat: [123, 456]
+            - Lng, Lat: [{{ coordenadas[0] | number : '2.4-4' }} , {{ coordenadas[1] | number : '2.4-4' }}]
         </label>
         <input  type="range" 
                 class="form-range"
