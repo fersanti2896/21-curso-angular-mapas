@@ -2,12 +2,16 @@
 <ul class="list-group">
     <li class="list-group-item list-group-item-info"
         (click)="agregarMarcador()">
-        + Agregar
+        <i class="bi bi-plus-circle"></i>
+        Agregar
     </li>
 
     <li class="list-group-item"
-        (click)="marcador()">
-        Marcador 1
+        (click)="verMarcador()"
+        *ngFor="let m of marcadores; let i = index"
+        [ngStyle]="{ 'background-color': m.color }">
+        <i class="bi bi-geo-alt"></i>
+        Direccion {{ i + 1 }}
     </li>
 </ul>
 
