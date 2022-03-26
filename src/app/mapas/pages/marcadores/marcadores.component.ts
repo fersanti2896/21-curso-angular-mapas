@@ -8,7 +8,18 @@ import * as mapboxgl from 'mapbox-gl';
     .mapa-container {
       height: 100%;
       width: 100%;
-    } 
+    }
+
+    .list-group {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      z-index: 99;
+    }
+
+    li {
+      cursor: pointer;
+    }
   `]
 })
 export class MarcadoresComponent implements AfterViewInit {
@@ -33,9 +44,27 @@ export class MarcadoresComponent implements AfterViewInit {
     const markerHTML: HTMLElement = document.createElement('div');
     markerHTML.innerHTML = 'Hola mundo!'; */
 
-    new mapboxgl.Marker()
-        .setLngLat(this.coordenadas)
-        .addTo(this.mapa);
+    // new mapboxgl.Marker()
+    //     .setLngLat(this.coordenadas)
+    //     .addTo(this.mapa);
+
+    /* Marcadores de manera dinámica */
+
+  }
+
+  agregarMarcador() {
+    const color = "#xxxxxx".replace(/x/g, y=>(Math.random()*16|0).toString(16));
+
+    const nuevoMarcador = new mapboxgl.Marker({
+                            draggable: true,
+                            color
+                          })
+                          .setLngLat( this.coordenadas )
+                          .addTo( this.mapa );
+  }
+
+  marcador() {
+
   }
 
 }
