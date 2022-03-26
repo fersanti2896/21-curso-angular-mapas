@@ -74,6 +74,11 @@ export class MarcadoresComponent implements AfterViewInit {
     });
 
     this.guardarMarcadorLocalStorage();
+
+    /* Actualiza el marcador en el localStorage cuando se mueve */
+    nuevoMarcador.on('dragend', () => {
+      this.guardarMarcadorLocalStorage();
+    }) 
   }
 
   verMarcador(marcador: mapboxgl.Marker ) {
@@ -116,7 +121,23 @@ export class MarcadoresComponent implements AfterViewInit {
       this.marcadores.push({
         color: m.color,
         marcador: newMarcador
+      })
+
+      /* Actualiza el marcador en el localStorage */
+      newMarcador.on('dragend', () => {
+        this.guardarMarcadorLocalStorage();
       })                        
     })
+  }
+
+  borrarMarcador( i: number) {
+    /* Borra el marcador del mapa */
+    this.marcadores[i].marcador?.remove();
+
+    /* Borra del li */
+    this.marcadores.splice(i, 1);
+
+    /* Una vez borrado actualiza */
+    this.guardarMarcadorLocalStorage();
   }
 }
